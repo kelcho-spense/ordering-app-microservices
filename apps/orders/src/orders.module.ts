@@ -10,6 +10,7 @@ import { Order, OrderSchema } from './schemas/order.schema';
 
 export interface EnvironmentVariables {
   MONGODB_URI: string;
+  PORT: number;
 }
 
 @Module({
@@ -18,6 +19,7 @@ export interface EnvironmentVariables {
       isGlobal: true,
       validationSchema: Joi.object<EnvironmentVariables>({
         MONGODB_URI: Joi.string().required(),
+        PORT: Joi.number().required(),
       }),
       envFilePath: './apps/orders/.env',
     }),
