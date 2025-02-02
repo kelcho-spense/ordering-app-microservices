@@ -1,15 +1,18 @@
 services:
   orders:
-    build: 
+    build:
       context: .
       dockerfile: ./apps/orders/Dockerfile
       target: development
     command: npm run start:dev orders
     env_file: ./apps/orders/.env
     depends_on:
-      - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
+      mongodb-primary:
+        condition: service_healthy
+      mongodb-secondary:
+        condition: service_healthy
+      mongodb-arbiter:
+        condition: service_healthy
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -17,7 +20,7 @@ services:
       - 3000:3000
 
   billing:
-    build: 
+    build:
       context: .
       dockerfile: ./apps/billing/Dockerfile
       target: development
@@ -45,6 +48,13 @@ services:
       - 'mongodb_master_data:/bitnami/mongodb'
     ports:
       - '27017:27017'
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
   mongodb-secondary:
     image: docker.io/bitnami/mongodb:8.0
     depends_on:
@@ -56,6 +66,12 @@ services:
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
 
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
   mongodb-arbiter:
     image: docker.io/bitnami/mongodb:8.0
     depends_on:
@@ -67,6 +83,12 @@ services:
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
 
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 volumes:
   mongodb_master_data:
     driver: local
