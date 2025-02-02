@@ -22,7 +22,7 @@ export interface EnvironmentVariables {
       envFilePath: './apps/orders/.env',
     }),
     DatabaseModule,
-    MongooseModule.forFeature([ 
+    MongooseModule.forFeature([
       {
         name: Order.name,
         schema: OrderSchema,

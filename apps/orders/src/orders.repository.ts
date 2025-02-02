@@ -1,8 +1,8 @@
 import { AbstractRepository } from '@app/common';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Order } from './schemas/order.schema';
-import { Model } from 'mongoose';
-import { InjectConnection } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class OrdersRepository extends AbstractRepository<Order> {
