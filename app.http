@@ -7,3 +7,6 @@ Content-Type: application/json
     "quantity": 1,
     "phoneNumber": "+15083418372"
 }
+
+### get all orders
+GET http://localhost:3000/orders

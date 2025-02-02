@@ -10,9 +10,9 @@ export class OrdersService {
     return this.orderRepository.create(request);
   }
 
-  // async getOrders() {
-  //   return this.orderRepository.find();
-  // }
+  async getOrders() {
+    return this.orderRepository.find({});
+  }
 
   // async getOrderById(id: string) {
   //   return this.orderRepository.findOne(id);
