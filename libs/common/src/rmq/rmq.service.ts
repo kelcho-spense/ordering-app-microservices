@@ -5,6 +5,7 @@ import { RmqOptions, Transport } from '@nestjs/microservices';
 @Injectable()
 export class RmqService {
   constructor(private readonly configService: ConfigService) {}
+
   getOptions(queue: string, noAck: boolean = false): RmqOptions {
     return {
       transport: Transport.RMQ, // This is to specify that we are using RabbitMQ
